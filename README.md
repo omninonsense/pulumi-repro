@@ -1,0 +1,1 @@
+The code that generates the error can be found at [`index.ts:188`](https://github.com/omninonsense/pulumi-repro/blob/main/index.ts#L188-L202)
