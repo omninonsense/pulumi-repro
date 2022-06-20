@@ -65,6 +65,7 @@ export class KubernetesCluster extends pulumi.ComponentResource {
    * `cluster.eksCluster`
    */
   readonly cluster: eks.Cluster;
+  readonly k8sProvider: k8s.Provider;
 
   /**
    * The name of the resource (not the EKS cluster itself; you can read that
@@ -148,6 +149,10 @@ export class KubernetesCluster extends pulumi.ComponentResource {
       { parent: this }
     );
 
+    this.k8sProvider = new k8s.Provider(`${name}-eks`, {
+      kubeconfig: this.cluster.kubeconfig,
+    });
+
     network.apply(async (network) => {
       let [publicSubnets, privateSubnets] = await Promise.all([
         network.vpc.publicSubnets,
@@ -180,7 +185,7 @@ export class KubernetesCluster extends pulumi.ComponentResource {
         },
         {
           parent: this.cluster,
-          providers: { kubernetes: this.cluster.provider },
+          providers: { kubernetes: this.k8sProvider },
         }
       ),
     ];
@@ -198,7 +203,7 @@ export class KubernetesCluster extends pulumi.ComponentResource {
       {
         file: "k8s/cert-manager.yaml",
       },
-      { provider: this.cluster.provider }
+      { provider: this.k8sProvider }
     );
 
     this.registerOutputs({
