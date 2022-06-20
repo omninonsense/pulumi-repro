@@ -198,10 +198,18 @@ export class KubernetesCluster extends pulumi.ComponentResource {
 							at /Users/nino/Documents/silicoai/pulumi-repro/node_modules/@pulumi/yaml/yaml.ts:2993:14
 							at processTicksAndRejections (node:internal/process/task_queues:95:5)
 			*/
+    // new k8s.yaml.ConfigFile(
+    //   "cert-manager",
+    //   {
+    //     file: "k8s/cert-manager.yaml",
+    //   },
+    //   { provider: this.k8sProvider }
+    // );
+
     new k8s.yaml.ConfigFile(
-      "cert-manager",
+      "example",
       {
-        file: "k8s/cert-manager.yaml",
+        file: "k8s/example.yaml",
       },
       { provider: this.k8sProvider }
     );
