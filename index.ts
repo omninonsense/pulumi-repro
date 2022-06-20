@@ -124,7 +124,7 @@ export class KubernetesCluster extends pulumi.ComponentResource {
         skipDefaultNodeGroup: true,
         createOidcProvider: true,
         providerCredentialOpts: {
-          profileName: name,
+          profileName: "sandbox",
         },
         nodeGroupOptions: {
           instanceProfile,
